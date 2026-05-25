@@ -95,7 +95,7 @@ because all the substance lives in user memory.
 - `test/`: empty. Cross-lib data-driven verification is **pending a new
   family-wide cross-lib test standard** (TBD by user) — see
   [test.md](test.md).
-- Remote: pending first push.
+- Remote: <https://github.com/YrralH/hjlib-skeleton> (initial commit `dbf1b4d` published 2026-05-25).
 
 ## Known future consumers
 

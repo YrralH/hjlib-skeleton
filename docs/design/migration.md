@@ -20,7 +20,7 @@ but is not part of the port surface.
 - Distribution: `hjlib-skeleton` (PyPI-style hyphen)
 - Import name: `hjlib_skeleton`
 - src path: `src/hjlib_skeleton/`
-- Initial commit: pending first git init
+- Initial commit: `dbf1b4dfd847708b056ec5a47f8ae51bdb00fdd0` (2026-05-25)
 
 ## 3. Equivalence model
 
@@ -101,8 +101,8 @@ skeleton-relevant parity / behavior coverage and the
 ## 9. Migration test status
 
 - [x] Phase 1 — code lives in new lib; pyright + smoke green;
-      initial commit landed *(pyright + smoke green at bootstrap;
-      initial commit pending git init)*
+      initial commit landed *(initial commit `dbf1b4d` 2026-05-25;
+      pyright strict 0 errors; pytest test_smoke/ 16 cases green)*
 - [ ] Phase 2 — parity + behavior tests green in
       `hjlib-migration-tests/<lib>/`; `(monolith_sha, new_lib_sha)`
       pair pinned in that subdir's README.md;
