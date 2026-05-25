@@ -88,28 +88,44 @@ the ported surface.
 
 ## 8. Where verification lives
 
-**TBD — pending new family-wide cross-lib test standard.** See
-[test.md](test.md) "Cross-lib verification (deferred)".
+Cross-lib verification for hjlib-skeleton lives in
+[`hjlib-integration-tests`](https://github.com/YrralH/hjlib-integration-tests)
+(the family's canonical cross-lib test repo, **replacing** the older
+`hjlib-migration-tests/<lib>/{parity,behavior}` pattern for new ports
+from 2026-05-25 onward; family intro at
+`hjlibm/docs/hjlib_standard/cross_lib_test_spec.md`, full spec at
+`hjlib-integration-tests/docs/design/spec.md`).
 
-The existing `hjlib-migration-tests/<lib>/{parity,behavior}` pattern
-is not used for this lib; the user is drafting a replacement better
-suited to this project's data-access reality. When the new standard
-lands, this section will be updated with the concrete path of
-skeleton-relevant parity / behavior coverage and the
-`(monolith_sha, new_lib_sha)` pinning that closes Phase 2.
+Two skeleton-relevant case shapes are expected to land there once
+upstream deps exist:
+
+1. 2D joints + name overlay on a real dataset frame (validates
+   `vocabulary index → actual joint position` correspondence).
+2. Monocular SMPL fit from 2D joints using `get_index_transform`,
+   eye-checking that the LSP-style vs SMPL-kinematic hip/pelvis/spine
+   disambiguation described in
+   [docs/usage/joint_name_semantics.md](../usage/joint_name_semantics.md)
+   produces visually-correct fits.
+
+Both cases hard-depend on hjlib-dataset-raw / hjlib-vis-2d / hjlib-smpl,
+which are themselves pending per the `dataset-raw-uplift` multi-lib
+plan in `hjlibm/docs/migration_progress/multi_lib_plans/`. Phase 2
+hinges on those landing first; the standard itself is not blocking.
 
 ## 9. Migration test status
 
 - [x] Phase 1 — code lives in new lib; pyright + smoke green;
       initial commit landed *(initial commit `dbf1b4d` 2026-05-25;
       pyright strict 0 errors; pytest test_smoke/ 16 cases green)*
-- [ ] Phase 2 — parity + behavior tests green in
-      `hjlib-migration-tests/<lib>/`; `(monolith_sha, new_lib_sha)`
-      pair pinned in that subdir's README.md;
-      `grep -rn 'lib_dynamic_hvip' .../<lib>/behavior/` returns empty
+- [ ] Phase 2 — skeleton-relevant cases landed in
+      `hjlib-integration-tests` (the family's canonical cross-lib test
+      repo, superseding `hjlib-migration-tests/<lib>/` for new ports);
+      baseline PNGs eye-checked against expected.md per the spec at
+      `hjlib-integration-tests/docs/design/spec.md`.
 
-      *Pending new cross-lib test standard (TBD by user); current
-      state is smoke-only.*
+      *Pending hjlib-dataset-raw / hjlib-vis-2d / hjlib-smpl
+      (per `dataset-raw-uplift` plan steps 1 / 2 / 7). Standard
+      itself is not blocking. Current state is smoke-only.*
 
 - [ ] Phase 3 — absorbed; `behavior/` + per-lib `conftest.py` +
       `local_setting_test.py` + readers moved into

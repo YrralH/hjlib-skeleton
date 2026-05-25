@@ -92,9 +92,13 @@ because all the substance lives in user memory.
 
 - pyright strict: **0 errors** across `src/ + test_smoke/`.
 - `pytest test_smoke/`: 16 cases passing.
-- `test/`: empty. Cross-lib data-driven verification is **pending a new
-  family-wide cross-lib test standard** (TBD by user) — see
-  [test.md](test.md).
+- `test/`: empty. Cross-lib data-driven verification is owned by the
+  family-wide cross-lib test repo
+  [`hjlib-integration-tests`](https://github.com/YrralH/hjlib-integration-tests)
+  (canonical spec at
+  `Code_as_Libs/hjlib-integration-tests/docs/design/spec.md`); the
+  skeleton-relevant cases there are themselves pending hjlib-dataset-raw
+  / hjlib-vis-2d / hjlib-smpl. See [test.md](test.md).
 - Remote: <https://github.com/YrralH/hjlib-skeleton> (initial commit `dbf1b4d` published 2026-05-25).
 
 ## Known future consumers
@@ -114,10 +118,20 @@ because all the substance lives in user memory.
 
 ## What's open
 
-- **Cross-lib test pending new family standard.** This lib's
-  vocabularies and `get_index_transform` are exercised end-to-end only
-  by downstream consumers (planned hjlib-dataset-raw etc.). The
-  existing `hjlib-migration-tests/<lib>/` pattern requires data
-  convenience this project lacks; the user is drafting a replacement.
-  When that standard lands, revisit Phase 2 verification for this lib
-  and create the appropriate cross-lib test surface.
+- **Cross-lib test cases pending upstream libs.** This lib's
+  vocabularies and `get_index_transform` are exercised end-to-end by
+  the
+  [`hjlib-integration-tests`](https://github.com/YrralH/hjlib-integration-tests)
+  repo (the family's canonical cross-lib test standard; see
+  `Code_as_Libs/hjlib-integration-tests/docs/design/spec.md`). The two
+  skeleton-relevant case shapes are:
+  (a) 2D vis of joints + names overlaid on a real dataset frame
+      (validates vocabulary index → actual joint position), and
+  (b) monocular SMPL fit from 2D joints via `get_index_transform`,
+      eye-checking the LSP-style vs SMPL-kinematic disambiguation
+      (validates the contract that
+      [joint_name_semantics.md](../usage/joint_name_semantics.md)
+      describes).
+  Both await hjlib-dataset-raw / hjlib-vis-2d / hjlib-smpl per
+  `dataset-raw-uplift` plan steps 1 / 2 / 7. The standard itself is
+  not blocking.

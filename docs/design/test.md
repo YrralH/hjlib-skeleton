@@ -25,21 +25,37 @@ Therefore:
   would mislead a future contributor into thinking data-driven
   verification is expected here.
 
-## Cross-lib verification (deferred)
+## Cross-lib verification
 
 Real-world correctness of `get_index_transform` and the vocabularies
 ultimately manifests in downstream consumers (dataset-raw, vis,
-network loss). The migration-protocol's existing answer for this is
-`hjlib-migration-tests/<lib>/{parity,behavior}` against the monolith.
+network loss).
 
-That pattern is not used here. The user is drafting a new cross-lib
-test standard better suited to this project's data-access reality.
-When it lands, this section will be updated with the concrete location
-of skeleton-relevant cross-lib coverage and any monolith-vs-hjlib
-parity gates.
+The family's canonical cross-lib test repo is
+[`hjlib-integration-tests`](https://github.com/YrralH/hjlib-integration-tests)
+(spec: `Code_as_Libs/hjlib-integration-tests/docs/design/spec.md`,
+family intro: `hjlibm/docs/hjlib_standard/cross_lib_test_spec.md`).
+It supersedes the older `hjlib-migration-tests/<lib>/{parity,behavior}`
+pattern for new ports from 2026-05-25 onward. hjlib-skeleton's
+verification path goes through it, not through hjlib-migration-tests.
 
-Until then: smoke-only + caller-side correctness (the downstream lib's
-own tests catch any vocabulary regression that breaks its outputs).
+Two skeleton-relevant case shapes are expected to land there:
+
+1. 2D joints + name overlay on a real dataset frame — validates that
+   each vocabulary's `name → index` actually corresponds to the
+   anatomical point a downstream caller expects.
+2. Monocular SMPL fit from 2D joints using `get_index_transform` —
+   eye-checks that the LSP-style vs SMPL-kinematic disambiguation
+   from
+   [docs/usage/joint_name_semantics.md](../usage/joint_name_semantics.md)
+   produces visually-correct fits.
+
+Both cases hard-depend on hjlib-dataset-raw / hjlib-vis-2d /
+hjlib-smpl (per the `dataset-raw-uplift` multi-lib plan in
+`hjlibm/docs/migration_progress/multi_lib_plans/`). Until those land,
+hjlib-skeleton's verification is smoke-only + caller-side correctness:
+downstream libs' own tests catch any vocabulary regression that
+breaks their outputs.
 
 ## Smoke files
 
